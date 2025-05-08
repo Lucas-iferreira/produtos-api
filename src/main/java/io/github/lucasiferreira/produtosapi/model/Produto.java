@@ -1,9 +1,24 @@
 package io.github.lucasiferreira.produtosapi.model;
 
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "produto")
 public class Produto {
+
+    @Id
+    @Column(name = "id")
     private String id;
-    private String name;
+
+    @Column(name = "nome")
+    private String nome;
+    @Column(name = "descricao")
     private String descricao;
+    @Column(name = "preco")
     private Double preco;
 
 
@@ -15,12 +30,12 @@ public class Produto {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getNome() {
+        return nome;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public String getDescricao() {
@@ -43,7 +58,7 @@ public class Produto {
     public String toString() {
         return "Produto{" +
                 "id='" + id + '\'' +
-                ", name='" + name + '\'' +
+                ", name='" + nome + '\'' +
                 ", descricao='" + descricao + '\'' +
                 ", preco=" + preco +
                 '}';
