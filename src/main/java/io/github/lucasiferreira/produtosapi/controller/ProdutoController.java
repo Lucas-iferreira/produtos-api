@@ -6,6 +6,7 @@ import io.github.lucasiferreira.produtosapi.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -31,16 +32,19 @@ public class ProdutoController {
     }
 
     @DeleteMapping("{id}")
-    public void deletar(@PathVariable String id){
+    public void deletar(@PathVariable String id) {
         repository.deleteById(id);
     }
 
     @PutMapping("{id}")
-    public void atualizando(@PathVariable String id, @RequestBody Produto produto){
+    public void atualizando(@PathVariable String id, @RequestBody Produto produto) {
         produto.setId(id);
         repository.save(produto);
+    }
 
-
+    @GetMapping
+    public List<Produto> buscar(@RequestParam("nome") String nome) {
+        return repository.findByNome(nome);
     }
 }
 
