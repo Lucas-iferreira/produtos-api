@@ -34,5 +34,13 @@ public class ProdutoController {
     public void deletar(@PathVariable String id){
         repository.deleteById(id);
     }
+
+    @PutMapping("{id}")
+    public void atualizando(@PathVariable String id, @RequestBody Produto produto){
+        produto.setId(id);
+        repository.save(produto);
+
+
+    }
 }
 
