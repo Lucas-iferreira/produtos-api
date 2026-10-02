@@ -4,7 +4,7 @@ import io.github.lucasiferreira.produtosapi.dto.ProductRequest;
 import io.github.lucasiferreira.produtosapi.dto.ProductResponse;
 import io.github.lucasiferreira.produtosapi.entity.Category;
 import io.github.lucasiferreira.produtosapi.entity.Product;
-import io.github.lucasiferreira.produtosapi.exception.ProductAlreadyExistsException;
+import io.github.lucasiferreira.produtosapi.exception.EntityAlreadyExistsException;
 import io.github.lucasiferreira.produtosapi.exception.ResourceNotFoundException;
 import io.github.lucasiferreira.produtosapi.repository.CategoryRepository;
 import io.github.lucasiferreira.produtosapi.repository.ProductRepository;
@@ -32,7 +32,7 @@ public class ProductService {
     public ProductResponse create(ProductRequest request) {
         Product product = new Product();
         if (productRepository.existsByName(request.name())) {
-            throw new ProductAlreadyExistsException("Product already exists!");
+            throw new EntityAlreadyExistsException("Product already exists!");
         }
         Category category = categoryRepository.findById(request.categoryId()).orElseThrow(() -> new ResourceNotFoundException("Category not Found!"));
         product.setName(request.name());

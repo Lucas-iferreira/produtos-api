@@ -3,7 +3,7 @@ package io.github.lucasiferreira.produtosapi.service;
 import io.github.lucasiferreira.produtosapi.dto.CategoryRequest;
 import io.github.lucasiferreira.produtosapi.dto.CategoryResponse;
 import io.github.lucasiferreira.produtosapi.entity.Category;
-import io.github.lucasiferreira.produtosapi.exception.ProductAlreadyExistsException;
+import io.github.lucasiferreira.produtosapi.exception.EntityAlreadyExistsException;
 import io.github.lucasiferreira.produtosapi.exception.ResourceNotFoundException;
 import io.github.lucasiferreira.produtosapi.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ public class CategoryService {
     public CategoryResponse create(CategoryRequest request) {
         Category category = new Category();
         if (categoryRepository.existsByName(request.name())) {
-            throw new ProductAlreadyExistsException("Category already exists!");
+            throw new EntityAlreadyExistsException("Category already exists!");
         }
         category.setName(request.name());
         Category savedCategory = categoryRepository.save(category);

@@ -20,8 +20,8 @@ public class GlobalHandlerException {
     }
 
 
-    @ExceptionHandler(ProductAlreadyExistsException.class)
-    public ResponseEntity<ErrorResponse> handleProductAlreadyExists(ProductAlreadyExistsException e) {
+    @ExceptionHandler(EntityAlreadyExistsException.class)
+    public ResponseEntity<ErrorResponse> handleProductAlreadyExists(EntityAlreadyExistsException e) {
         ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), Instant.now());
         return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
     }
