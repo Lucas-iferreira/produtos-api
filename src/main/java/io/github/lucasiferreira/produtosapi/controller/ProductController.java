@@ -2,10 +2,9 @@ package io.github.lucasiferreira.produtosapi.controller;
 
 import io.github.lucasiferreira.produtosapi.dto.ProductRequest;
 import io.github.lucasiferreira.produtosapi.dto.ProductResponse;
-import io.github.lucasiferreira.produtosapi.entity.Product;
 import io.github.lucasiferreira.produtosapi.service.ProductService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,10 +14,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/products")
+@RequiredArgsConstructor
 public class ProductController {
 
-    @Autowired
-    private ProductService productService;
+    private final ProductService productService;
 
 
     @GetMapping("{id}")

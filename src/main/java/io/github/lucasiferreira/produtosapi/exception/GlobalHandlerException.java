@@ -2,6 +2,7 @@ package io.github.lucasiferreira.produtosapi.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -34,4 +35,14 @@ public class GlobalHandlerException {
 
         return ResponseEntity.badRequest().body(fieldsErrorResponse);
     }
+
+
+    @ExceptionHandler(UsernameNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleUserUnauthorized(UsernameNotFoundException e) {
+        int status = HttpStatus.UNAUTHORIZED.value();
+        ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), Instant.now());
+        return ResponseEntity.status(status).body(errorResponse);
+    }
+
+
 }

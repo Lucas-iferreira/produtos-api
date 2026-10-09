@@ -6,13 +6,13 @@ import io.github.lucasiferreira.produtosapi.entity.Category;
 import io.github.lucasiferreira.produtosapi.exception.EntityAlreadyExistsException;
 import io.github.lucasiferreira.produtosapi.exception.ResourceNotFoundException;
 import io.github.lucasiferreira.produtosapi.repository.CategoryRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class CategoryService {
-    @Autowired
-    private CategoryRepository categoryRepository;
+    private final CategoryRepository categoryRepository;
 
 
     public CategoryResponse create(CategoryRequest request) {

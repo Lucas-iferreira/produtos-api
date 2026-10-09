@@ -8,7 +8,7 @@ import io.github.lucasiferreira.produtosapi.exception.EntityAlreadyExistsExcepti
 import io.github.lucasiferreira.produtosapi.exception.ResourceNotFoundException;
 import io.github.lucasiferreira.produtosapi.repository.CategoryRepository;
 import io.github.lucasiferreira.produtosapi.repository.ProductRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -20,12 +20,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ProductService {
-    @Autowired
-    private ProductRepository productRepository;
+    private final ProductRepository productRepository;
 
-    @Autowired
-    private CategoryRepository categoryRepository;
+    private final CategoryRepository categoryRepository;
 
 
     @Transactional()

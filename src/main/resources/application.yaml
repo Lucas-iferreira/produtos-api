@@ -12,3 +12,5 @@ spring:
     defer-datasource-initialization: true
     show-sql: true
     open-in-view: false
+  jwt:
+    secret: ${JWT_SECRET}
