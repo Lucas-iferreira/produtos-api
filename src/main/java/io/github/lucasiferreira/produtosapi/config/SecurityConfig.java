@@ -1,14 +1,17 @@
 package io.github.lucasiferreira.produtosapi.config;
 
 import io.github.lucasiferreira.produtosapi.security.JwtAuthenticationFilter;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -21,6 +24,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
 
@@ -38,8 +42,32 @@ public class SecurityConfig {
                                 "/swagger-ui.html",
                                 "/v3/api-docs/**",
                                 "/auth/**"
-                        ).permitAll()
+                        )
+                        .permitAll()
+                        // Somente ADMIN pode modificar produtos
+                        .requestMatchers(HttpMethod.POST, "/products", "/products/**")
+                        .hasRole("ADMIN")
+
+                        .requestMatchers(HttpMethod.PUT, "/products/**")
+                        .hasRole("ADMIN")
+
+                        .requestMatchers(HttpMethod.DELETE, "/products/**")
+                        .hasRole("ADMIN")
+
+                        // USER e ADMIN podem consultar produtos
+                        .requestMatchers(HttpMethod.GET, "/products/**")
+                        .hasAnyRole("USER", "ADMIN")
+
+                        // Demais endpoints exigem autenticação
                         .anyRequest().authenticated()
+                )
+                .exceptionHandling(exception -> exception
+                        .authenticationEntryPoint(((request, response, authException) -> {
+                            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                        }))
+                        .accessDeniedHandler((request, response, accesDeniedException) ->
+                                response.setStatus(HttpServletResponse.SC_FORBIDDEN))
+
                 )
                 .addFilterBefore(
                         jwtAuthenticationFilter,
